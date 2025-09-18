@@ -60,10 +60,6 @@
       </button>
     </form>
 
-  <!-- Hidden Thank You message -->
-<div id="thankyouMessage" style="display:none; color:green; font-weight:bold; margin-top:15px;">
-  ✅ Thank you! Your registration has been submitted.
-</div>
   </div>
 </section>
 
@@ -73,10 +69,6 @@
     e.preventDefault();
     var formData = new FormData(this);
 
-    fetch("https://script.google.com/macros/s/AKfycbyrLWTy99QRNL0wPFS2SYh7Kd0lsTgCnOGfP1AOY88WI4xFfygUMwfm1rBm7RR3sUt9-A/exec", {
-      method: "POST",
-      body: formData
-    })
     .then(response => response.text())
     .then(text => {
       if (text.includes("SUCCESS")) {
@@ -180,9 +172,7 @@
   form.addEventListener("submit", function(e) {
     e.preventDefault(); // stop normal redirect
 
-    fetch("YOUR_WEB_APP_URL", {
-      method: "POST",
-      body: new FormData(form)
+    fetch("https://script.google.com/macros/s/AKfycbyrLWTy99QRNL0wPFS2SYh7Kd0lsTgCnOGfP1AOY88WI4xFfygUMwfm1rBm7RR3sUt9-A/exec", {method: "POST",body: new FormData(form)
     })
     .then(response => response.text())
     .then(text => {
