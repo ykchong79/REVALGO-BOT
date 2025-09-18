@@ -33,45 +33,58 @@
   </section>
 
   <!-- REGISTRATION FORM -->
-<section class="py-20 px-6 bg-gray-900 text-white">
-  <div class="max-w-3xl mx-auto bg-gray-800 p-10 rounded-2xl shadow-lg">
-    <h2 class="text-4xl font-bold text-center text-cyan-300 mb-8">Registration Form</h2>
-    <p class="text-center text-gray-400 mb-8">Let's start with your personal details</p>
+<section class="py-20 px-6 bg-gray-900">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-4xl font-bold text-cyan-300 glow-text mb-6">Register as a Student</h2>
+    <p class="text-lg text-gray-300 mb-8">Fill in your details to join and receive updates.</p>
 
-    <form action="https://script.google.com/macros/s/AKfycbwlcMXEwHIp7odnrARQjeMVm7J_0smjMh89m0aCfqzcdp2IqoaLIHLms_Evu_hu9wO9-Q/exec" method="POST" class="space-y-6">
-      
+    <!-- FORM -->
+    <form id="studentForm" class="space-y-6">
+
       <!-- Full Name -->
-      <div>
-        <label class="block text-gray-300 mb-2">Full Name *</label>
-        <input type="text" name="full_name" required
-          class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none">
-      </div>
+      <input type="text" name="full_name" placeholder="Full Name" required
+        class="w-full p-4 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:border-cyan-400">
 
       <!-- Email -->
-      <div>
-        <label class="block text-gray-300 mb-2">Email Address *</label>
-        <input type="email" name="email" required
-          class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none">
-      </div>
+      <input type="email" name="email" placeholder="Email Address" required
+        class="w-full p-4 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:border-cyan-400">
 
       <!-- Contact Number -->
-      <div>
-        <label class="block text-gray-300 mb-2">Contact Number *</label>
-        <input type="tel" name="contact_number" required
-          class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none">
-      </div>
-    
-       <!-- Submit Button -->
-      <div class="text-center">
-        <button type="submit"
-          class="bg-cyan-500 hover:bg-cyan-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg transition">
-          Register →
-        </button>
-      </div>
+      <input type="tel" name="contact_number" placeholder="Contact Number" required
+        class="w-full p-4 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:border-cyan-400">
 
+      <!-- Submit Button -->
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-cyan-400 to-blue-600 px-6 py-4 rounded-lg text-xl font-bold text-white shadow-lg hover:scale-105 transition">
+        🚀 Register Now
+      </button>
     </form>
+
+    <!-- THANK YOU MESSAGE -->
+    <div id="thankyouMessage" style="display:none; margin-top:20px; color:cyan; font-size:20px;">
+      🎉 Thank you for registering! We’ve received your details and will contact you soon.
+    </div>
   </div>
 </section>
+
+<!-- SCRIPT TO HANDLE FORM SUBMISSION -->
+<script>
+  document.getElementById("studentForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // Prevent default form submission
+    var formData = new FormData(this);
+
+    fetch("https://script.google.com/macros/s/AKfycbwlcMXEwHIp7odnrARQjeMVm7J_0smjMh89m0aCfqzcdp2IqoaLIHLms_Evu_hu9wO9-Q/exec", { // 🔹 Replace with your Google Apps Script Web App URL
+      method: "POST",
+      body: formData
+    })
+    .then(() => {
+      document.getElementById("studentForm").style.display = "none";  // Hide the form
+      document.getElementById("thankyouMessage").style.display = "block"; // Show thank-you message
+    })
+    .catch(err => alert("Error: " + err));
+  });
+</script>
+
 
 
   <!-- WHAT IS REVALGO -->
