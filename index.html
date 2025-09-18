@@ -172,23 +172,47 @@
     <p class="mt-4 text-xs">⚠ Trading involves risk. Past performance does not guarantee future results.</p>
   </footer>
 
-  <!-- SweetAlert2 Popup -->
+<!-- SweetAlert2 Popup -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  // Check if ?success=1 exists in URL
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("success") === "1") {
-    Swal.fire({
-      icon: 'success',
-      title: 'Registration Successful!',
-      text: 'We’ll contact you soon.',
-      confirmButtonColor: '#3085d6'
-    }).then(() => {
-      // Remove ?success=1 from URL so popup doesn’t show on refresh
-      window.history.replaceState({}, document.title, window.location.pathname);
+  const form = document.getElementById("studentForm");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault(); // stop normal redirect
+
+    fetch("YOUR_WEB_APP_URL", {
+      method: "POST",
+      body: new FormData(form)
+    })
+    .then(response => response.text())
+    .then(text => {
+      if (text.includes("SUCCESS")) {
+        Swal.fire({
+          icon: 'success',
+          title: '🎉 Registration Successful!',
+          text: 'We’ll contact you soon.',
+          confirmButtonColor: '#3085d6'
+        });
+        form.reset(); // clear form after success
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong. Please try again.',
+          confirmButtonColor: '#d33'
+        });
+      }
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Network Error',
+        text: 'Please check your connection and try again.',
+      });
     });
-  }
+  });
 </script>
+
 
 </body>
 </html>
