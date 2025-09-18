@@ -60,28 +60,33 @@
       </button>
     </form>
 
-    <!-- THANK YOU MESSAGE -->
-    <div id="thankyouMessage" style="display:none; margin-top:20px; color:cyan; font-size:20px;">
-      🎉 Thank you for registering! We’ve received your details and will contact you soon.
-    </div>
+  <!-- Hidden Thank You message -->
+<div id="thankyouMessage" style="display:none; color:green; font-weight:bold; margin-top:15px;">
+  ✅ Thank you! Your registration has been submitted.
+</div>
   </div>
 </section>
 
 <!-- SCRIPT TO HANDLE FORM SUBMISSION -->
 <script>
   document.getElementById("studentForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     var formData = new FormData(this);
 
     fetch("https://script.google.com/macros/s/AKfycbxBe5LCrb8qPlm-JHRJosjUTtar-mKW-n6-pMlY8b2BDQB0D9hrcAohS5CPGrAfKh1aGA/exec", { // 🔹 Replace with your Google Apps Script Web App URL
       method: "POST",
       body: formData
     })
-    .then(() => {
-      document.getElementById("studentForm").style.display = "none";  // Hide the form
-      document.getElementById("thankyouMessage").style.display = "block"; // Show thank-you message
+    .then(response => response.text())   // force text mode
+    .then(data => {
+      console.log("Server says:", data); // check what Apps Script returned
+      document.getElementById("studentForm").style.display = "none";
+      document.getElementById("thankyouMessage").style.display = "block";
     })
-    .catch(err => alert("Error: " + err));
+    .catch(err => {
+      console.error("Fetch Error:", err);
+      alert("Oops! Something went wrong. Try again.");
+    });
   });
 </script>
 
