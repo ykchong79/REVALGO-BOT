@@ -73,22 +73,26 @@
     e.preventDefault();
     var formData = new FormData(this);
 
-    fetch("https://script.google.com/macros/s/AKfycbxBe5LCrb8qPlm-JHRJosjUTtar-mKW-n6-pMlY8b2BDQB0D9hrcAohS5CPGrAfKh1aGA/exec", { // 🔹 Replace with your Google Apps Script Web App URL
+    fetch("https://script.google.com/macros/s/AKfycbyrLWTy99QRNL0wPFS2SYh7Kd0lsTgCnOGfP1AOY88WI4xFfygUMwfm1rBm7RR3sUt9-A/exec", {
       method: "POST",
       body: formData
     })
-    .then(response => response.text())   // force text mode
-    .then(data => {
-      console.log("Server says:", data); // check what Apps Script returned
-      document.getElementById("studentForm").style.display = "none";
-      document.getElementById("thankyouMessage").style.display = "block";
+    .then(response => response.text())
+    .then(text => {
+      if (text.includes("SUCCESS")) {
+        document.getElementById("studentForm").style.display = "none";
+        document.getElementById("thankyouMessage").style.display = "block";
+      } else {
+        alert("Server Error: " + text);
+      }
     })
     .catch(err => {
       console.error("Fetch Error:", err);
-      alert("Oops! Something went wrong. Try again.");
+      alert("Oops! Something went wrong.");
     });
   });
 </script>
+
 
 
 
