@@ -175,5 +175,52 @@
     <p class="mt-4 text-xs">⚠ Trading involves risk. Past performance does not guarantee future results.</p>
   </footer>
 
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- FORM SUBMISSION SCRIPT -->
+  <script>
+    const form = document.getElementById("studentForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      fetch("https://script.google.com/macros/s/AKfycbyrLWTy99QRNL0wPFS2SYh7Kd0lsTgCnOGfP1AOY88WI4xFfygUMwfm1rBm7RR3sUt9-A/exec", {
+        method: "POST",
+        body: new FormData(form)
+      })
+      .then(response => response.text())
+      .then(text => {
+        if (text.includes("SUCCESS")) {
+          Swal.fire({
+            icon: 'success',
+            title: '🎉 Registration Successful!',
+            text: 'We’ll contact you soon.',
+            confirmButtonColor: '#3085d6'
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong. Please try again.',
+            confirmButtonColor: '#d33'
+          });
+          console.log("Server response:", text);
+        }
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Network Error',
+          text: 'Please check your connection and try again.',
+        });
+        console.error("Fetch error:", error);
+      });
+    });
+  </script>
+
 </body>
 </html>
+
+
