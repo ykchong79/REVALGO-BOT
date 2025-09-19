@@ -178,18 +178,18 @@
   <!-- SweetAlert2 -->
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  const form = document.getElementById("studentForm");
+  document.getElementById("registrationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault(); // stop normal redirect
+    const form = e.target;
+    const data = new FormData(form);
 
-    fetch("YOUR_WEB_APP_URL", {
+    fetch(form.action, {
       method: "POST",
-      body: new FormData(form)
+      body: data,
     })
-    .then(response => response.text())
-    .then(text => {
-      if (text.includes("SUCCESS")) {
+    .then(response => {
+      if (response.ok) {
         Swal.fire({
           icon: 'success',
           title: '🎉 Registration Successful!',
@@ -211,22 +211,14 @@
           confirmButtonColor: '#3085d6',
           width: 600
         });
-        form.reset(); // clear form after success
+
+        form.reset();
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops!',
-          text: 'Something went wrong. Please try again.',
-          confirmButtonColor: '#d33'
-        });
+        Swal.fire("Oops!", "Something went wrong. Please try again later.", "error");
       }
     })
     .catch(error => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Network Error',
-        text: 'Please check your connection and try again.',
-      });
+      Swal.fire("Error", "Unable to connect. Please check your internet connection.", "error");
     });
   });
 </script>
