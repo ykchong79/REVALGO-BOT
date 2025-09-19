@@ -66,7 +66,7 @@
     form.addEventListener("submit", function(e) {
       e.preventDefault(); // stop normal redirect
 
-      fetch("https://script.google.com/macros/s/AKfycbx0K_V95ac5ly0gaFxfqBaEBKNvQfmEMHTEwnxcgANdkKcm11zS3HFt7XFqebXec_CqYQ/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbyTj3k-HhhM5xpySM8ySS7sYqdxCRopzLR9whgUxXmMIh15HN8xSZMzVcc932l_KvqLAw/exec", {
         method: "POST",
         body: new FormData(form)
       })
@@ -176,53 +176,49 @@
   </footer>
 
   <!-- SweetAlert2 -->
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  document.getElementById("registrationForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    const form = e.target;
-    const data = new FormData(form);
+  <!-- FORM SUBMISSION SCRIPT -->
+  <script>
+    const form = document.getElementById("studentForm");
 
-    fetch(form.action, {
-      method: "POST",
-      body: data,
-    })
-    .then(response => {
-      if (response.ok) {
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      fetch("https://script.google.com/macros/s/AKfycbwUERuH_8HgTRKjQwAxoa98pwBFIon9a5tdfTQ10XHxFnLE8gi-VzJxkDpNpSqYZuIBLA/exec", {
+        method: "POST",
+        body: new FormData(form)
+      })
+      .then(response => response.text())
+      .then(text => {
+        if (text.includes("SUCCESS")) {
+          Swal.fire({
+            icon: 'success',
+            title: '🎉 Registration Successful!',
+            text: 'We’ll contact you soon.',
+            confirmButtonColor: '#3085d6'
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong. Please try again.',
+            confirmButtonColor: '#d33'
+          });
+          console.log("Server response:", text);
+        }
+      })
+      .catch(error => {
         Swal.fire({
-          icon: 'success',
-          title: '🎉 Registration Successful!',
-          html: `
-            <h2 style="font-size:24px; font-weight:bold; margin-bottom:15px; color:#0ea5e9;">
-              Take Control of Your Trading Now!
-            </h2>
-            <a href="https://drive.google.com/uc?export=download&id=1a3Vccc9pQDvo9yCZ5hqkzB-pIL1XG3GR" 
-               style="display:inline-block; margin:10px; padding:15px 30px; background:#facc15; color:#000; 
-                      font-weight:bold; border-radius:50px; text-decoration:none; font-size:18px; 
-                      box-shadow:0 4px 10px rgba(0,0,0,0.3);">
-              👉 GET YOUR FREE DOWNLOAD 👈
-            </a>
-            <p style="margin-top:10px; font-size:14px; color:#6b7280;">
-              No credit card required • Instant access
-            </p>
-          `,
-          confirmButtonText: 'Close',
-          confirmButtonColor: '#3085d6',
-          width: 600
+          icon: 'error',
+          title: 'Network Error',
+          text: 'Please check your connection and try again.',
         });
-
-        form.reset();
-      } else {
-        Swal.fire("Oops!", "Something went wrong. Please try again later.", "error");
-      }
-    })
-    .catch(error => {
-      Swal.fire("Error", "Unable to connect. Please check your internet connection.", "error");
+        console.error("Fetch error:", error);
+      });
     });
-  });
-</script>
-
+  </script>
 
 </body>
 </html>
